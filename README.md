@@ -52,7 +52,7 @@ The system allows users to book appointments, doctors to manage schedules, and a
 
 ## 📁 Project Structure
 
-medi_care/
+medi_care/                                                                                                                                                                   
 ├── admin/ # Admin panel (React)
 ├── frontend/ # User & Doctor frontend (React)
 ├── backend/ # Backend (Node.js + Express)
