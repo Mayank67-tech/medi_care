@@ -12,8 +12,11 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "axios": "^1.13.5",
+    "axios-cookiejar-support": "^6.0.5",
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.5.1",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
@@ -23,6 +26,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.9",
     "razorpay": "^2.9.6",
+    "tough-cookie": "^6.0.0",
     "validator": "^13.12.0"
   }
 }

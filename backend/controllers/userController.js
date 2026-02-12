@@ -33,6 +33,8 @@ const registerUser = async (req, res) => {
     const user = await newUser.save();
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+    res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
     res.json({ success: true, token });
   } catch (error) {
     console.error(error);
@@ -49,6 +51,7 @@ const loginUser = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+      res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
       res.json({ success: true, token });
     } else {
       res.json({ success: false, message: "Incorrect Credentials" });
@@ -57,6 +60,11 @@ const loginUser = async (req, res) => {
     console.error(error);
     res.json({ success: false, message: error.message });
   }
+};
+
+const logoutUser = (req, res) => {
+  res.clearCookie('token', { httpOnly: true, secure: true, sameSite: 'None' });
+  res.json({ success: true, message: "Logged out successfully" });
 };
 //api to get user profile data
 const getProfile = async (req, res) => {
@@ -223,17 +231,17 @@ const paymentRazorpay = async (req, res) => {
 };
 
 //api to verify payment of razorpay
-const verifyRazorpay=async (req, res) => {
+const verifyRazorpay = async (req, res) => {
   try {
-    const { razorpay_order_id} = req.body;
-    const orderInfo=await razorpayInstance.orders.fetch(razorpay_order_id);
+    const { razorpay_order_id } = req.body;
+    const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id);
     console.log(orderInfo);
-    if(orderInfo.status==="paid"){
-      await appointmentModel.findByIdAndUpdate(orderInfo.receipt,{payment:true});
-      res.json({success:true,message:"Payment Successfull"});
+    if (orderInfo.status === "paid") {
+      await appointmentModel.findByIdAndUpdate(orderInfo.receipt, { payment: true });
+      res.json({ success: true, message: "Payment Successfull" });
     }
-    else{
-      res.json({success:false,message:"Payment Failed"});
+    else {
+      res.json({ success: false, message: "Payment Failed" });
     }
 
   } catch (error) {
@@ -245,6 +253,7 @@ const verifyRazorpay=async (req, res) => {
 export {
   registerUser,
   loginUser,
+  logoutUser,
   getProfile,
   updateProfile,
   bookAppointment,
