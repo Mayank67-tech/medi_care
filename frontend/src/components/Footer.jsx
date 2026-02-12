@@ -32,7 +32,7 @@ const Footer = () => {
       {/* {cp} */}
       <div>
         <hr/>
-        <p className='py-5 text-sm text-center'>Copyright 2024 @ ayushmanagarwal - All Right Reserved.</p>
+        <p className='py-5 text-sm text-center'>Copyright 2024 @ MayankKumarAgarwal - All Right Reserved.</p>
       </div>
     </div>
   )
